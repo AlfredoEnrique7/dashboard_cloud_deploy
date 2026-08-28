@@ -1,0 +1,51 @@
+altair==6.2.2
+anyio==4.14.2
+attrs @ file:///Users/ec2-user/croot/attrs_1774959626218/work
+blinker==1.9.0
+certifi==2026.7.22
+charset-normalizer==3.5.1
+click==8.5.0
+contourpy==1.3.3
+cycler==0.12.1
+fastjsonschema @ file:///Users/ec2-user/croot/python-fastjsonschema_1786461254756/work
+fonttools==4.63.0
+h11==0.16.0
+httptools==0.8.0
+idna==3.19
+itsdangerous==2.2.0
+Jinja2==3.1.6
+jsonschema @ file:///Users/ec2-user/croot/jsonschema_1787319118642/work
+jsonschema-specifications @ file:///opt/miniconda3/conda-bld/jsonschema-specifications_1762788416562/work
+jupyter_core @ file:///opt/miniconda3/conda-bld/jupyter_core_1764588283979/work
+kiwisolver==1.5.0
+MarkupSafe==3.0.3
+matplotlib==3.11.1
+narwhals==2.25.0
+nbformat @ file:///Users/ec2-user/croot/nbformat_1786534587966/work
+numpy==2.5.2
+packaging==26.3
+pandas==3.0.5
+pillow==12.3.0
+platformdirs @ file:///Users/ec2-user/croot/platformdirs_1785312135846/work
+plotly==7.0.0
+protobuf==7.36.0
+pyarrow==25.0.1
+pydeck==0.9.3
+pyparsing==3.3.2
+python-dateutil==2.9.0.post0
+python-multipart==0.0.32
+referencing @ file:///opt/miniconda3/conda-bld/referencing_1762536885350/work
+requests==2.34.2
+rpds-py==2026.6.3
+setuptools==83.0.0
+six==1.17.0
+starlette==1.6.0
+streamlit==1.62.0
+toml==0.10.2
+traitlets @ file:///Users/ec2-user/croot/traitlets_1778743200843/work
+typing_extensions==4.16.0
+urllib3==2.7.0
+uvicorn==0.52.4
+watchdog==6.0.0
+websockets==16.1.1
+wheel==0.47.0
