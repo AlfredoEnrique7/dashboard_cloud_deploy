@@ -1,48 +1,51 @@
-import pandas as pd
-import plotly.graph_objects as go  # Importación de plotly.graph_objects como go
 import streamlit as st
+import pandas as pd
+import plotly.express as px
 
-# Leer los datos del archivo CSV
-car_data = pd.read_csv('vehicles_us.csv')
+# 1. Encabezado con texto (Criterio obligatorio)
+st.set_page_config(page_title="Dashboard de Anuncios de Vehículos", layout="wide")
+st.title("🚗 Cuadro de Mando: Mercado de Vehículos Usados (EE. UU.)")
+st.markdown("Analiza de forma interactiva la distribución de precios, condiciones y kilometraje del dataset oficial.")
 
-# Configurar el título principal de la aplicación web
-st.header('Cuadro de Mando de Anuncios de Venta de Coches')
+# 2. Carga segura de datos
+@st.cache_data
+def cargar_datos():
+    return pd.read_csv("vehicles_us.csv")
 
-# --- CASILLAS DE VERIFICACIÓN (CHECKBOXES) ---
-# Crear las casillas en la interfaz web
-build_histogram = st.checkbox('Construir un histograma')
-build_scatter = st.checkbox('Construir un gráfico de dispersión')
+try:
+    df = cargar_datos()
+except FileNotFoundError:
+    st.error("❌ Archivo 'vehicles_us.csv' no encontrado en el directorio raíz.")
+    st.stop()
 
-# --- LÓGICA PARA EL HISTOGRAMA ---
-if build_histogram: # Si la casilla del histograma está seleccionada
-    st.write('Construir un histograma para la columna odómetro')
+# 3. Componentes Interactivos (Botón / Casilla de verificación - Criterio obligatorio)
+st.sidebar.header("Filtros y Controles")
+filtrar_buena_condicion = st.sidebar.checkbox("Mostrar solo vehículos en excelente/buena condición")
 
-    # Crear el histograma utilizando plotly.graph_objects
-    fig_hist = go.Figure(data=[go.Histogram(x=car_data['odometer'])])
-    fig_hist.update_layout(title_text='Distribución del Odómetro (Millas)')
+# Filtrar dinámicamente si la casilla está marcada
+if filtrar_buena_condicion:
+    df_visualizacion = df[df['condition'].isin(['excellent', 'good', 'like new', 'new'])]
+else:
+    df_visualizacion = df
 
-    # Mostrar el gráfico interactivo
-    st.plotly_chart(fig_hist, use_container_width=True)
+# 4. Construcción de Visualizaciones Requeridas
+col1, col2 = st.columns(2)
 
-# --- LÓGICA PARA EL GRÁFICO DE DISPERSIÓN ---
-if build_scatter: # Si la casilla del gráfico de dispersión está seleccionada
-    st.write('Construir un gráfico de dispersión para la relación Odómetro vs Precio')
-
-    # Crear el gráfico de dispersión utilizando plotly.graph_objects
-    fig_scatter = go.Figure(data=[go.Scatter(
-        x=car_data['odometer'], 
-        y=car_data['price'], 
-        mode='markers',
-        marker=dict(opacity=0.5)
-    )])
-    
-    # Personalizar los ejes del gráfico
-    fig_scatter.update_layout(
-        title_text='Relación entre Millas Recorridas (Odómetro) y Precio',
-        xaxis_title='Millas Recorridas (Odómetro)',
-        yaxis_title='Precio ($)'
+with col1:
+    st.markdown("### 📊 Histograma de Precios")
+    fig_histograma = px.histogram(
+        df_visualizacion, x='price',
+        title="Frecuencia de Precios en el Mercado",
+        labels={'price': 'Precio (USD)'}, template='plotly_dark'
     )
+    st.plotly_chart(fig_histograma, use_container_width=True)
 
-    # Mostrar el gráfico interactivo
-    st.plotly_chart(fig_scatter, use_container_width=True)
-
+with col2:
+    st.markdown("### 📉 Gráfico de Dispersión (Scatterplot)")
+    fig_dispersion = px.scatter(
+        df_visualizacion, x='odometer', y='price', 
+        color='type', title="Relación: Kilometraje (Odometer) vs Precio",
+        labels={'odometer': 'Kilometraje', 'price': 'Precio (USD)', 'type': 'Tipo de Auto'},
+        template='plotly_dark'
+    )
+    st.plotly_chart(fig_dispersion, use_container_width=True)
