@@ -1,6 +1,6 @@
 # Dashboard cloud deploy
 
-##  Aplicación en Vivo
+##  Aplicación en vivo
 
 Puedes interactuar con el cuadro de mando completamente funcional y desplegado en la nube a través del siguiente enlace oficial:
 [![Desplegado en Render](https://shields.io)](https://dashboard-cloud-deploy.onrender.com)
